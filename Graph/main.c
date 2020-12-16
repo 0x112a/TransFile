@@ -22,6 +22,8 @@ int main(){
 	}
 	printf("深度优先搜索序列：");
 	DFSTraverse(G);
+	printf("广度优先搜索序列：");
+	BFSTraverse(G);
 
 	return 0;
 }
