@@ -36,12 +36,12 @@ Status EnQueue(LinkQueue *Q,QElemType e){
 	return OK;
 }
 
-Status DeQueue(LinkQueue *Q, QElemType e){
+Status DeQueue(LinkQueue *Q, QElemType *e){
 	QueuePtr p;
 	if(Q->front == Q->rear)
 		return ERROR;
 	p = Q->front->next;
-	e = Q->front->data;
+	*e = Q->front->data;
 	Q->front->next=p->next;
 	if(Q->rear==p)
 		Q->rear = Q->front;

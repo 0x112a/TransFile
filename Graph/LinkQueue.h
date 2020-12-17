@@ -21,5 +21,5 @@ Status DestoryQueue(LinkQueue *Q);
 //入队列
 Status EnQueue(LinkQueue *Q, QElemType e);
 //出队列
-Status DeQueue(LinkQueue *Q, QElemType e);
+Status DeQueue(LinkQueue *Q, QElemType *e);
 

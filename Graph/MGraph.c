@@ -157,6 +157,7 @@ int NextAdjVex(MGraph G, int v, int w){
 void BFSTraverse(MGraph G){
 	int i,v,u,w;
 	LinkQueue Q;
+	//初始化visited
 	for(i=0;i<G.vexnum;i++){
 		visited[i] = FALSE;
 	}
@@ -164,13 +165,13 @@ void BFSTraverse(MGraph G){
 	for(v=0;v<G.vexnum;v++){
 		if(visited[v]==0){
 			visited[v]=TRUE;
-			printf("%c",G.vexs[v]);
+			printf("%c ",G.vexs[v]);
 			EnQueue(&Q,v);
 			while (!QueueisEmpty(Q)) {
-				DeQueue(&Q,v);
+				DeQueue(&Q,&u);
 				for (w = FirstAdjVex(G,u); w>=0; w=NextAdjVex(G,u,w)) {
 					if (!visited[w]) {
-						printf("%c",G.vexs[w]);
+						printf("%c ",G.vexs[w]);
 						visited[w]=TRUE;
 						EnQueue(&Q,w);
 					}
@@ -191,9 +192,8 @@ int Minimum(MGraph G, Edge *closedge){
 			break;
 		}
 	}
-	//?????
-	//for(i++;i<G.vexnum;i++){
-	for(i=0;i<G.vexnum;i++){
+	//
+	for(i++;i<G.vexnum;i++){
 		if(closedge[i].lowcost != 0 && closedge[i].lowcost <Min){
 			Min = closedge[i].lowcost;
 			k=i;

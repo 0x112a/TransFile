@@ -24,6 +24,19 @@ int main(){
 	DFSTraverse(G);
 	printf("广度优先搜索序列：");
 	BFSTraverse(G);
+	
+	printf("带权无向图求最小生成树：\n");
+	CreateUDG(&G);
+	printf("最小生成树的信息为：\n");
+	u=G.vexs[0];
+	MiniSpanTreePrim(G, u);
 
+	printf("带权有向图求最短路径：\n");
+	CreateDN(&G);
+	printf("请输入起点：");
+	scanf(" %c",&u);
+	v0 = LocateVex(G,u);
+	ShortPathDij(G,v0,P,D);
+	PrintshortPath(G,v0,P,D);
 	return 0;
 }
