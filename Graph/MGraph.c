@@ -1,10 +1,10 @@
 #include "MGraph.h"
 #include "LinkQueue.h"
 #include "SqStack.h"
+#include <stdio.h>
 
 int visited[N];//访问标识数组
 Edge closedge[N];
-
 
 //创建一个无向图的邻接矩阵
 Status CreateUDG(MGraph *G){
@@ -185,6 +185,7 @@ void BFSTraverse(MGraph G){
 //@@
 int Minimum(MGraph G, Edge *closedge){
 	int i,k,Min;
+	//Min赋初值
 	for(i=0;i<G.vexnum;i++){
 		if(closedge[i].lowcost !=0){
 			Min=closedge[i].lowcost;
@@ -204,9 +205,12 @@ int Minimum(MGraph G, Edge *closedge){
 //从顶点u出发， 按普里姆算法构造连通网G 的最小生成树， 并输出生成树的每条边
 void MiniSpanTreePrim(MGraph G, VertexType u){
 	int k,i,j,m;
+	//找出顶点u在图G里的位置并赋值给k
 	k = LocateVex(G,u);
+	//初始化边定义
 	closedge[k].lowcost =0;
 	closedge[k].adjvex = -1;
+	//k的边的信息
 	for(j=0;j<G.vexnum;j++){
 		if(j !=k){
 			if(G.arcs[k][j] != MAX){
@@ -220,8 +224,10 @@ void MiniSpanTreePrim(MGraph G, VertexType u){
 	}
 	for(i=0;i<G.vexnum;i++){
 		k=Minimum(G,closedge);
+		//该边所对应的邻接点
 		m = closedge[k].adjvex;
 		printf("%c %c\n",G.vexs[m],G.vexs[k]);
+		//k点纳入u的集合
 		closedge[k].lowcost=0;
 
 		for(j=0;j<G.vexnum;j++){
@@ -234,30 +240,33 @@ void MiniSpanTreePrim(MGraph G, VertexType u){
 }
 //在图G中求v0到其他点的最短路径
 void ShortPathDij(MGraph G, int v0, int *p, int *D){
-	int final[N];
+	int final[N];//保存是否使用过
 	int v,i,w,Min,j;
 	//三个辅助数组初始化
+	//P 存所有边信息
 	for(v=0;v<G.vexnum;++v){
 		final[v]=FALSE;
-		D[v]=G.arcs[v0][v];
-		if(D[v] < MAX)
+		D[v]=G.arcs[v0][v];//有路径则赋值路径值，无路径则即为MAX（3000）
+		if(D[v] < MAX)//若有路径则p数组标记可v0
 			p[v]=v0;
 	}
+	//标记顶点v0已从集合T加入到数组中
 	D[v0] = 0;
 	final[v0]=TRUE;
-	for(i=1;i<G.vexnum;++i){
+	//开始循环，每次求得V0到某个V顶点的最短路径，并加V到final数组
+	for(i=1;i<G.vexnum;++i){//循环vexnum-1次
 		Min =MAX;
-		for(w = 0;w<G.vexnum;++w)
-			if(!final[w])
+		for(w = 0;w<G.vexnum;++w)//找出当前最小路径，并保存至v中,且权值保存至Min中
+			if(!final[w])//求当前最短路经的相关信息
 				if(D[w]<Min){
 					v=w;
 					Min=D[w];
 				}
 		if(Min<MAX)
-			final[v] = TRUE;
+			final[v] = TRUE;//标记顶点V已从集合T加入到数组f中
 		else
-			break;
-
+			break;//表示v0没有边
+		//修改从v0到其他顶点的最短距离和最短路径
 		for(w=0;w<G.vexnum;++w){
 			if(!final[w] && (Min + G.arcs[v][w]<D[w])){
 				D[w] = Min + G.arcs[v][w];
@@ -271,12 +280,13 @@ void PrintshortPath(MGraph G, int v0, int *p, int *D){
 	int i,j;
 	SqStack s;
 	InitStack(&s);
+
 	for(i=0;i<G.vexnum;i++){
 		if(i != v0){
 			Push(&s,i);
-			j=p[i];
+			j=p[i];//j为v0到i的最短路径
 			while (1) {
-				Push(&s,i);
+				Push(&s,j);
 				if(j== v0)
 					break;
 				j = p[j];
@@ -284,7 +294,7 @@ void PrintshortPath(MGraph G, int v0, int *p, int *D){
 			printf("%c到%c的最短路径值为：%d，路径信息为：", G.vexs[v0], G.vexs[i], D[i]);
 			while (!StackEmpty(s)) {
 				Pop(&s,&j);
-				printf("%c ",G.vexs[j]);
+				printf("%c->",G.vexs[j]);
 			}
 			printf("\n");
 		}

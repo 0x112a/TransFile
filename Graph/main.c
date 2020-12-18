@@ -5,8 +5,7 @@ int main(){
 	MGraph G;
 	VertexType u;
 	int i,j,v0;
-	int D[N],P[N]={-1};//若P[v]==w，则w是从v0到v当前求得最短路径上的点
-
+	int D[N],P[N]={-1};//若P[v]==w，则w是从v0(起点)到v当前求得最短路径上的-点-,D保存v0到v 的最短路径值
 	printf("无向图的基本操作：\n");
 	CreateUDG(&G);
 	printf("图中的顶点信息为：\n");
@@ -26,11 +25,10 @@ int main(){
 	BFSTraverse(G);
 	
 	printf("带权无向图求最小生成树：\n");
-	CreateUDG(&G);
+	CreateUDN(&G);
 	printf("最小生成树的信息为：\n");
 	u=G.vexs[0];
 	MiniSpanTreePrim(G, u);
-
 	printf("带权有向图求最短路径：\n");
 	CreateDN(&G);
 	printf("请输入起点：");

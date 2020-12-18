@@ -12,7 +12,7 @@ typedef struct{
 	int vexnum,arcnum;//顶点数，边数
 
 }MGraph;
-
+// 边的定义：
 typedef struct{
 	VertexType adjvex;
 	int lowcost;//边权值
